@@ -45,7 +45,14 @@ async function search () {
     let id = document.getElementById('id').value;
     for(let i = 0; i < result.result.length; i++) {
         if(result.result[i].token_id == id) {
-            document.getElementsByTagName('div')[0].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>';
+            let q = new Moralis.Query('Signups');
+            q.equalTo('ethAddress', result.result[i].owner_of);
+            let r = await q.find();
+            let email = 'none';
+            if(r.length > 0) {
+                email = r[0].attributes.email;
+            }
+            document.getElementsByTagName('div')[0].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>' + 'Email: ' + email;
             break;
         }
     }
