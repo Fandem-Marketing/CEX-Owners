@@ -1,5 +1,6 @@
 // const { default: Moralis } = require("moralis/types");
 
+
 // CEX
 const serverUrl = "https://bbp7pvunemun.usemoralis.com:2053/server";
 const appId = "nsHcPxcjIR90QFsk0cwyJ8UyvE0VsuANxG0gTDER";
@@ -19,7 +20,14 @@ async function getOwners () {
     console.log(result);
     let show = 0;
     for(let i = result.result.length - 1; i >= 0; i--) {
-        document.getElementsByTagName('div')[show].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>';
+        let q = new Moralis.Query('Signups');
+        q.equalTo('ethAddress', result.result[i].owner_of);
+        let r = await q.find();
+        let email = 'none';
+        if(r.length > 0) {
+            email = r[0].attributes.email;
+        }
+        document.getElementsByTagName('div')[show].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>' + 'Email: ' + email;
         show++;
     }
 }
