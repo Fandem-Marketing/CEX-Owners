@@ -63,7 +63,17 @@ async function search () {
             if(r.length > 0) {
                 email = r[0].attributes.email;
             }
-            document.getElementsByTagName('div')[0].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>' + 'Email: ' + email;
+            let xmlHttpReq = new XMLHttpRequest();
+            xmlHttpReq.open("GET", 'https://us-central1-cex1-332319.cloudfunctions.net/get-ipfs-2?tokenid=' + result.result[i].token_id, false); 
+            xmlHttpReq.send(null);
+            let res = JSON.parse(xmlHttpReq.responseText);
+            for(let j = 0; j < res.attributes.length; j++) {
+                if(res.attributes[j].trait_type === 'Access'){
+                    res = res.attributes[j].value;
+                    break;
+                }
+            }
+            document.getElementsByTagName('div')[0].innerHTML = '</br>Token ID: ' + result.result[i].token_id + ' <br/>Owner: ' + result.result[i].owner_of + '<br/>' + 'Email: ' + email + '<br/>' + 'Access: ' + res;
             break;
         }
     }
