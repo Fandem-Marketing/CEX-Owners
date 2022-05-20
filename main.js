@@ -13,7 +13,7 @@ $("#seeAll").click(getOwners);
 
 async function getOwners () {
     const options = {
-        address: "0x4008f13addd10f08b66f0d8e88849c3f34fed0af",
+        address: "0x48c1fffe24fabe9cb525f2d4fd96624bdc56f76e",
         chain: "eth"
     };
     const result = await Moralis.Web3API.token.getNFTOwners(options);
@@ -45,7 +45,7 @@ async function getOwners () {
 
 async function search () {
     const options = {
-        address: "0x4008f13addd10f08b66f0d8e88849c3f34fed0af",
+        address: "0x48c1fffe24fabe9cb525f2d4fd96624bdc56f76e",
         chain: "eth"
     };
     for(let i = 0; i < 100; i ++) {
